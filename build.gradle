@@ -61,7 +61,7 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/dynamodb-java-repository/dynamodb-java-repository")
             credentials {
-                username = System.getenv("USERNAME")
+                username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
