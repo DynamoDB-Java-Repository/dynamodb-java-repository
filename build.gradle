@@ -1,9 +1,10 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'maven-publish'
 }
 
-group = 'org.example'
+group = 'data.dynamodb.repository'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -52,4 +53,22 @@ test {
     dependsOn copyNativeDeps
     systemProperty 'java.library.path', 'build/libs'
     finalizedBy jacocoTestReport
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/dynamodb-java-repository/dynamodb-java-repository")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
 }
